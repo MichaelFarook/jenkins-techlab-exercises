@@ -1,21 +1,17 @@
-pipeline {
-    agent any
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '6'))
-        timeout(time: 10, unit: 'MINUTES')
-        timestamps()  // Timestamper Plugin
-        disableConcurrentBuilds()
-    }
-    environment {
-        GREETING_TO = 'Jenkins Techlab'
-    }
-    stages {
-        stage('Greeting') {
-            steps {
-                echo "Hello, ${env.GREETING_TO}!"
-                
-                sh 'echo "Hello, $GREETING_TO!"'
+properties([
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+])
+
+timestamps() {
+    timeout(time: 10, unit: 'MINUTES') {
+        node {
+            stage('Greeting') {
+                withEnv(['GREETINGS_TO=Jenkins TechLab']) {
+                    echo "Hello, ${env.GREETINGS_TO} !"
+                    //also available as env variable to a process: 
+                    sh 'echo "Hello, $GREETINGS_TO!"'
+                }
             }
-        }
+        } 
     }
 }
