@@ -1,7 +1,7 @@
 pipeline {
     agent any
     options {
-        buildDiscarder(logRotator(numToKeepStr: '6'))
+        buildDiscarder(logRotator(numToKeepStr: '5'))
         timeout(time: 10, unit: 'MINUTES')
         timestamps()  // Timestamper Plugin
         disableConcurrentBuilds()
@@ -13,11 +13,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                
-                sh 'java-version'
-                
+
+                sh 'java -version'
+
                 sh 'javac -version'
-                
+
                 sh 'mvn --version'
             }
         }
